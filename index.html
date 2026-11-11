@@ -3,59 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>OBI-1 | T6PO — 4-Stage Guided Work Order + Step-by-Step TRD Notes</title>
+  <title>OBI-1 | T6PO — Complete TRD 3.6.1 Interactive Simulator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
     body {
-      background-color: #0b0e14;
+      background-color: #090c12;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #1e293b;
       margin: 0;
       padding: 0;
     }
     .mobile-shell {
-      max-width: 430px;
+      max-width: 440px;
       margin: 0 auto;
       min-height: 100vh;
       background-color: #12161f;
       position: relative;
-      padding-bottom: 88px;
-      box-shadow: 0 0 40px rgba(0,0,0,0.85);
+      padding-bottom: 92px;
+      box-shadow: 0 0 50px rgba(0,0,0,0.9);
     }
-    /* T6PO Cream Work Order Surface */
+    /* Exact T6PO Cream Work Order Surface */
     .wo-surface {
       background-color: #faf6f0;
       border-radius: 18px;
       margin: 8px;
-      padding: 14px;
+      padding: 13px;
       color: #1e293b;
     }
     .t6-card {
       background-color: #ffffff;
       border: 1px solid #e6dfd5;
       border-radius: 14px;
-      padding: 14px;
+      padding: 13px;
       box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     }
-    /* T6PO Dark Navy Panels & Phase Buttons */
     .navy-panel {
       background-color: #0d1526;
       color: #f8fafc;
       border-radius: 14px;
-      padding: 15px;
+      padding: 14px;
       border: 1px solid #1e293b;
     }
     .navy-btn {
       background-color: #0f1d3a;
       color: #ffffff;
-      border-radius: 12px;
-      padding: 10px 6px;
+      border-radius: 11px;
+      padding: 9px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       transition: all 0.15s ease;
       border: 2px solid transparent;
@@ -69,11 +68,10 @@
       background-color: #162a52;
       box-shadow: 0 0 0 3px rgba(245, 176, 65, 0.25);
     }
-    /* 4-Stage Stepper Tabs inside T6PO Cream Card */
     .stage-tab {
-      padding: 9px 4px;
-      border-radius: 10px;
-      font-size: 11.5px;
+      padding: 8px 2px;
+      border-radius: 9px;
+      font-size: 10.5px;
       font-weight: 800;
       text-align: center;
       border: 1px solid #d5cbbd;
@@ -93,19 +91,18 @@
       border-color: #a8dab5;
     }
     .badge-pill {
-      font-size: 11px;
+      font-size: 10.5px;
       padding: 2px 8px;
       border-radius: 999px;
       font-weight: 700;
     }
-    /* Bottom Nav */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
-      max-width: 430px;
+      max-width: 440px;
       background-color: #12161f;
       border-top: 1px solid #262c3a;
       display: grid;
@@ -120,63 +117,50 @@
 <div class="mobile-shell">
 
   <!-- TOP STICKY T6PO HEADER -->
-  <header class="bg-[#12161f] px-3.5 py-3 flex items-center justify-between border-b border-slate-800 sticky top-0 z-40">
+  <header class="bg-[#12161f] px-3.5 py-2.5 flex items-center justify-between border-b border-slate-800 sticky top-0 z-40">
     <div class="flex items-center space-x-2.5">
-      <div class="w-10 h-10 rounded-xl bg-[#f5b041] flex items-center justify-center text-slate-950 font-black text-base shadow">
+      <div class="w-9 h-9 rounded-xl bg-[#f5b041] flex items-center justify-center text-slate-950 font-black text-sm shadow">
         T6
       </div>
       <div>
         <div class="text-white font-extrabold text-sm leading-tight">T6PO</div>
-        <div class="text-slate-400 text-[11px]">Technician 6 Priority Operations</div>
+        <div class="text-slate-400 text-[10px]">Full TRD 3.6.1 Interactive Simulator</div>
       </div>
     </div>
-    <div class="flex items-center space-x-2">
-      <button onclick="toggleFleetModal()" class="px-2.5 py-1.5 rounded-xl bg-[#1c222f] border border-slate-700 text-amber-400 font-bold text-xs flex items-center space-x-1">
-        <i class="fa-solid fa-truck-pickup"></i><span>#109</span>
+    <div class="flex items-center space-x-1.5">
+      <button onclick="autoSimulateCurrentStage()" class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] shadow">
+        <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Simulate Stage
       </button>
-      <div class="px-3 py-1.5 rounded-xl bg-[#1c222f] border border-slate-700 text-white font-bold text-xs">
+      <div class="px-2.5 py-1.5 rounded-lg bg-[#1c222f] border border-slate-700 text-white font-bold text-xs">
         OBI 1
       </div>
     </div>
   </header>
 
-  <!-- WORK ORDER CREAM SURFACE (Exact T6PO Look + 4-Stage Guided Functionality) -->
+  <!-- WORK ORDER SURFACE -->
   <div class="wo-surface space-y-3">
 
-    <!-- Top Row: Back & Work Order ID -->
+    <!-- Top Status & Progress Bar -->
     <div class="flex items-center justify-between">
-      <button onclick="alert('Returns to Today\'s Work Queue')" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
-        &larr; Today's Work
-      </button>
-      <span id="topStatusBadge" class="badge-pill bg-amber-100 text-amber-900 border border-amber-300">
-        Stage 1 of 4: Pre-Job Prep
+      <span class="text-xs font-extrabold text-slate-700">WO-2026-001044 • Zac Dawe</span>
+      <span id="topProgressBadge" class="badge-pill bg-amber-100 text-amber-900 border border-amber-300">
+        TRD Progress: 0%
       </span>
     </div>
 
-    <!-- Customer & Job Header -->
-    <div class="px-1">
-      <div class="text-xs text-slate-500 font-semibold">WO-2026-001044 • Pumpline (1st on Schedule)</div>
-      <h1 class="text-2xl font-black text-slate-900 leading-tight">Zac Dawe</h1>
-      <div class="text-sm text-slate-600">Well Pump & Pressure Tank Service • 2300 N Kootenai Rd</div>
+    <!-- 5-Stage TRD Chronological Stepper -->
+    <div class="grid grid-cols-5 gap-1">
+      <button id="stTab1" onclick="switchStage(1)" class="stage-tab active">1. Morning</button>
+      <button id="stTab2" onclick="switchStage(2)" class="stage-tab">2. Pre-Job</button>
+      <button id="stTab3" onclick="switchStage(3)" class="stage-tab">3. Onsite/Notes</button>
+      <button id="stTab4" onclick="switchStage(4)" class="stage-tab">4. Bill/Wait</button>
+      <button id="stTab5" onclick="switchStage(5)" class="stage-tab">5. End Shift</button>
     </div>
 
-    <!-- Call / Message / Directions Row -->
-    <div class="grid grid-cols-3 gap-2">
-      <button class="t6-card py-2 flex items-center justify-center space-x-1.5 font-bold text-xs text-slate-800">
-        <i class="fa-solid fa-phone text-blue-600"></i><span>Call</span>
-      </button>
-      <button class="t6-card py-2 flex items-center justify-center space-x-1.5 font-bold text-xs text-slate-800">
-        <i class="fa-regular fa-comment-dots text-slate-600"></i><span>Message</span>
-      </button>
-      <button class="t6-card py-2 flex items-center justify-center space-x-1.5 font-bold text-xs text-slate-800">
-        <i class="fa-solid fa-location-dot text-rose-600"></i><span>Directions</span>
-      </button>
-    </div>
-
-    <!-- T6PO 6 Dark-Navy Phase Buttons + Live Timer Strip -->
+    <!-- T6PO Activity & 6 Dark-Navy Phase Buttons -->
     <div class="t6-card py-2 px-3 flex items-center justify-between bg-slate-50">
-      <div class="text-xs text-slate-500">Activity: <strong id="phaseText" class="text-slate-900">Pre-Departure Hold</strong></div>
-      <span id="phaseTimer" class="font-mono text-xs font-bold text-emerald-700">00:18:40</span>
+      <div class="text-xs text-slate-500">Activity: <strong id="phaseText" class="text-slate-900">Off the Clock (Start Stage 1)</strong></div>
+      <span id="phaseTimer" class="font-mono text-xs font-bold text-emerald-700">00:00:00</span>
     </div>
 
     <div class="grid grid-cols-3 gap-1.5">
@@ -186,8 +170,8 @@
       <button id="pBtn_start" onclick="selectPhase('Start Work', 'pBtn_start')" disabled class="navy-btn">
         <i class="fa-solid fa-screwdriver-wrench text-blue-300 text-sm mb-0.5"></i><span>Start Work</span>
       </button>
-      <button id="pBtn_parts" onclick="toggleShortageModal()" disabled class="navy-btn">
-        <i class="fa-solid fa-box text-amber-300 text-sm mb-0.5"></i><span>Parts Run</span>
+      <button id="pBtn_parts" onclick="openShortageSimulator()" disabled class="navy-btn">
+        <i class="fa-solid fa-box text-amber-300 text-sm mb-0.5"></i><span>Parts / Issue</span>
       </button>
       <button id="pBtn_shop" onclick="tryBackToShop()" disabled class="navy-btn">
         <i class="fa-solid fa-building text-amber-200 text-sm mb-0.5"></i><span>Back to Shop</span>
@@ -195,372 +179,358 @@
       <button id="pBtn_pause" onclick="selectPhase('Paused', 'pBtn_pause')" disabled class="navy-btn">
         <i class="fa-solid fa-pause text-blue-200 text-sm mb-0.5"></i><span>Paused</span>
       </button>
-      <button class="navy-btn opacity-50">
+      <button class="navy-btn opacity-40">
         <i class="fa-solid fa-ban text-rose-500 text-sm mb-0.5"></i><span>Cancelled</span>
       </button>
     </div>
 
-    <!-- 4-STAGE GUIDED STEPPER BAR (Functionality from App 1 inside T6PO Look) -->
-    <div class="grid grid-cols-4 gap-1.5 pt-1">
-      <button id="stTab1" onclick="switchStage(1)" class="stage-tab active">1. Prep & Go</button>
-      <button id="stTab2" onclick="switchStage(2)" class="stage-tab">2. Work & Notes</button>
-      <button id="stTab3" onclick="switchStage(3)" class="stage-tab">3. Bill & Wait</button>
-      <button id="stTab4" onclick="switchStage(4)" class="stage-tab">4. Tomorrow</button>
-    </div>
-
     <!-- =================================================================== -->
-    <!-- STAGE 1: MORNING PREP, CUSTOMER FILE & WELCOME SMS (TRD Sec 1 & 2)  -->
+    <!-- STAGE 1: AT THE BEGINNING OF THE DAY (TRD Section 1: #1, #2, #3)    -->
     <!-- =================================================================== -->
     <div id="stagePane1" class="space-y-3">
-      <!-- Scope & Customer History Card -->
-      <div class="t6-card space-y-2">
-        <div class="flex justify-between items-center">
-          <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">1. Customer Goal & File History (TRD #1–4)</span>
-          <span class="badge-pill bg-emerald-100 text-emerald-800">History Unlocked</span>
-        </div>
-        <div class="text-xs text-slate-800 space-y-1 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-          <p><strong>WHY Customer Called:</strong> Intermittent low water pressure & waterlogged tank; wants reliable water before freeze.</p>
-          <p><strong>Past Job Notes (2024):</strong> Installed 40/60 switch; 1.5HP Franklin pump. Well head is 40ft NE of barn.</p>
-          <p class="text-amber-900 font-semibold"><strong>Access / Gate Code:</strong> Corral gate code <code>#4491</code>. Keep latched for horses.</p>
-        </div>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 pt-1 cursor-pointer">
-          <input type="checkbox" id="s1_hist" onchange="checkStage1()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Reviewed Full CRM File:</strong> Read past jobs, Customer Questionnaire, engineered drawings & access rules.</span>
-        </label>
+      <div class="bg-blue-950 text-white rounded-xl p-3 text-xs">
+        <div class="font-extrabold text-amber-400 uppercase text-[10px]">TRD SECTION 1 • AT THE BEGINNING OF THE DAY</div>
+        <div>Simulate Clock-In, Daily Vehicle & Equipment Inspections, and the $200/wk Fuel Card protocol.</div>
       </div>
 
-      <!-- Morning Customer Welcome SMS (TRD #5) -->
+      <!-- TRD 1.1: Clock In -->
       <div class="t6-card space-y-2">
-        <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">2. Morning Customer Welcome Text (TRD #5)</div>
-        <div class="bg-[#f5ebe6] border border-[#dfc7bc] rounded-xl p-2.5 text-xs text-slate-800 italic">
-          "Hi Zac, you are <strong>1st on our schedule</strong> today (~8:30 AM window). We are gathering materials for our jobs now and will give you at least <strong>30 minutes notice</strong> before arrival, or alert you immediately if anything changes."
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-extrabold text-slate-900">1. Clock In (CRM Timesheet)</span>
+          <span id="badgeClockIn" class="badge-pill bg-slate-200 text-slate-700">Off Clock</span>
         </div>
-        <button id="btnWelcomeSms" onclick="fireWelcomeSms()" class="w-full py-2.5 rounded-xl bg-[#0f1d3a] hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center space-x-2 shadow">
-          <i class="fa-solid fa-car text-amber-400"></i>
-          <span>Send Welcome Text & Enable 30-Min Arrival Notice</span>
+        <p class="text-[11px] text-slate-600">Clock into the CRM Timesheet per TIME KEEPING instructions.</p>
+        <button id="btnClockIn" onclick="simClockIn()" class="w-full py-2.5 bg-[#0f1d3a] hover:bg-slate-800 text-white font-bold text-xs rounded-xl">
+          <i class="fa-solid fa-stopwatch mr-1.5 text-amber-400"></i>Tap to Clock Into CRM Timesheet (7:00 AM)
         </button>
       </div>
 
-      <!-- Materials, Locates, Permits & Crew Assignment (TRD #6–10) -->
-      <div class="t6-card space-y-2">
-        <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">3. Materials, Locates & Crew Tasks (TRD #6–10)</div>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 cursor-pointer">
-          <input type="checkbox" id="s1_mat" onchange="checkStage1()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Materials & Special Tools:</strong> Verified complete CRM material list, specialty equipment & consumables on truck.</span>
-        </label>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 cursor-pointer">
-          <input type="checkbox" id="s1_loc" onchange="checkStage1()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Locates & Permits:</strong> Confirmed utility locates are complete prior to arrival and permits are pulled.</span>
-        </label>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 cursor-pointer">
-          <input type="checkbox" id="s1_crew" onchange="checkStage1()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Crew Assignments:</strong> Lead tech assigned tasks to crew members per project schedule.</span>
-        </label>
-      </div>
-
-      <button id="btnUnlockStage2" onclick="completeStage1()" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
-        <i class="fa-solid fa-lock mr-1.5"></i>Complete All Pre-Job Steps to Unlock Onsite Work
-      </button>
-    </div>
-
-    <!-- =================================================================== -->
-    <!-- STAGE 2: WORK, QUICK NOTE + STEP-BY-STEP GUIDED TRD NOTE WIZARD     -->
-    <!-- =================================================================== -->
-    <div id="stagePane2" class="space-y-3 hidden">
-
-      <!-- OPTION A: QUICK NOTE (Kept for fast on-the-fly jotting & voice memos!) -->
-      <div class="t6-card space-y-2 border-l-4 border-l-blue-600">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-[10px] font-extrabold uppercase tracking-wider text-blue-700">FAST JOT / VOICE SCRATCHPAD</div>
-            <div class="text-sm font-extrabold text-slate-900">Quick Note (Mid-Job Jots & Audio)</div>
-          </div>
-          <button onclick="dictateQuickNote()" class="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold flex items-center space-x-1">
-            <i class="fa-solid fa-microphone"></i><span>Dictate Quick Note</span>
-          </button>
-        </div>
-        <textarea id="quickNoteInput" rows="2" class="w-full border border-slate-300 rounded-xl p-2.5 text-xs text-slate-800 bg-slate-50" placeholder="Jot quick measurements, part numbers, or reminders anytime during the job..."></textarea>
-        <div class="flex justify-between items-center">
-          <span id="quickNoteStatus" class="text-[11px] text-slate-500">Saved quick notes stay attached to the work order & feed into your guided steps.</span>
-          <button onclick="saveQuickNote()" class="px-3 py-1 bg-[#0f1d3a] text-white font-bold text-xs rounded-lg">Save Quick Note</button>
-        </div>
-      </div>
-
-      <!-- OPTION B: STEP-BY-STEP GUIDED TRD NOTE BUILDER (1 Requirement at a Time!) -->
-      <div class="navy-panel space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
-          <div>
-            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400">MANDATORY STEP-BY-STEP DOCUMENTATION (TRD STEP 5)</div>
-            <div class="text-base font-extrabold text-white">Guided Note & 11/11 Requirement Builder</div>
-          </div>
-          <span id="wizBadge" class="badge-pill bg-amber-500/20 text-amber-300 border border-amber-500/40">0/6 Done</span>
-        </div>
-
-        <!-- 6-Step Progress Pills -->
-        <div class="grid grid-cols-6 gap-1">
-          <button onclick="jumpWizard(1)" id="wPill1" class="py-1.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950">1. Convo</button>
-          <button onclick="jumpWizard(2)" id="wPill2" class="py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400">2. Locs</button>
-          <button onclick="jumpWizard(3)" id="wPill3" class="py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400">3. Mat/Test</button>
-          <button onclick="jumpWizard(4)" id="wPill4" class="py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400">4. Est/CO</button>
-          <button onclick="jumpWizard(5)" id="wPill5" class="py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400">5. Labor</button>
-          <button onclick="jumpWizard(6)" id="wPill6" class="py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400">6. Status</button>
-        </div>
-
-        <!-- WIZARD STEP 1: Customer Conversations -->
-        <div id="wizStep1" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 1 of 6: Customer Conversations (TRD Step 5a)</span>
-            <button onclick="fillDemoStep(1)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">Document conversations with the customer <strong>before, during, and after</strong> the work:</p>
-          <textarea id="wInp1" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="What did you discuss upon arrival, mid-job, and during final walkthrough?"></textarea>
-          <button onclick="saveWizStep(1)" class="w-full py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
-            Save Step 1 & Next: Locations/Landmarks &rarr;
-          </button>
-        </div>
-
-        <!-- WIZARD STEP 2: Locations of Well Heads, Controls, Tanks, Sewer Lids & Directions -->
-        <div id="wizStep2" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hidden">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 2 of 6: Site Locations & Directions (TRD Step 5b–c)</span>
-            <button onclick="fillDemoStep(2)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">Record exact locations of <strong>well heads, controls, pressure tanks, sewer lids</strong>, access issues, and extra property directions:</p>
-          <textarea id="wInp2" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="e.g., Well head 40ft NE of barn; tank & controls on north pump house wall; sewer lid 15ft W of porch..."></textarea>
-          <div class="flex space-x-2">
-            <button onclick="jumpWizard(1)" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Back</button>
-            <button onclick="saveWizStep(2)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
-              Save Step 2 & Next: Materials & Testing &rarr;
-            </button>
-          </div>
-        </div>
-
-        <!-- WIZARD STEP 3: Exact Materials Used & System Testing Readings -->
-        <div id="wizStep3" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hidden">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 3 of 6: Materials, Serial #s & Testing (TRD Step 5e–g)</span>
-            <button onclick="fillDemoStep(3)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">List exact <strong>materials used (type, quantity, size)</strong>, pump/motor serial numbers, and confirm system is tested & operating correctly:</p>
-          <textarea id="wInp3" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="e.g., (1) 86-Gal Well-X-Trol Tank, (1) 40/60 Square D Switch. Pump SN #FE-99281-B. Tested at 12.2A, 40/60 PSI..."></textarea>
-          <div class="flex space-x-2">
-            <button onclick="jumpWizard(2)" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Back</button>
-            <button onclick="saveWizStep(3)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
-              Save Step 3 & Next: Estimates / Change Orders &rarr;
-            </button>
-          </div>
-        </div>
-
-        <!-- WIZARD STEP 4: Further Estimates or Change Orders (Distances & Elevation) -->
-        <div id="wizStep4" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hidden">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 4 of 6: Follow-Up Estimates / COs (TRD Step 5h)</span>
-            <button onclick="fillDemoStep(4)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">Are further estimates or change orders needed? Include exact <strong>distances and elevation changes</strong> (or state None):</p>
-          <textarea id="wInp4" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="e.g., Customer wants estimate for 110ft frost-free hydrant run to barn (+6ft elevation rise)..."></textarea>
-          <div class="flex space-x-2">
-            <button onclick="jumpWizard(3)" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Back</button>
-            <button onclick="saveWizStep(4)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
-              Save Step 4 & Next: Labor & Dirt Split &rarr;
-            </button>
-          </div>
-        </div>
-
-        <!-- WIZARD STEP 5: Time Breakdown & Dirt Work (Machine vs Standard Labor) -->
-        <div id="wizStep5" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hidden">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 5 of 6: Labor & Dirt Work Breakdown (TRD Step 5i–j)</span>
-            <button onclick="fillDemoStep(5)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">Verify <strong>drive time, labor per tech, shop time</strong>, and for dirt work, break down <strong>machine time vs. standard labor</strong>:</p>
-          <textarea id="wInp5" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="e.g., Drive: 0.5h | Zac Labor: 2.5h | Shop: 0.25h | Dirt Work: 0h Machine / 2.5h Standard Labor..."></textarea>
-          <div class="flex space-x-2">
-            <button onclick="jumpWizard(4)" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Back</button>
-            <button onclick="saveWizStep(5)" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
-              Save Step 5 & Next: Final Completion Status &rarr;
-            </button>
-          </div>
-        </div>
-
-        <!-- WIZARD STEP 6: Explicit 100% Completion Status -->
-        <div id="wizStep6" class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2 hidden">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-extrabold text-amber-400">Step 6 of 6: Explicit Completion Status (TRD Step 5k)</span>
-            <button onclick="fillDemoStep(6)" class="text-[11px] text-blue-400 underline font-semibold">Demo Auto-Fill</button>
-          </div>
-          <p class="text-[11px] text-slate-300">Clearly note whether the job is <strong>100% complete, billed, and collected, with no need to return</strong> (or specify return requirements):</p>
-          <textarea id="wInp6" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="e.g., Job is 100% complete, ready to bill & collect onsite, no need to return."></textarea>
-          <div class="flex space-x-2">
-            <button onclick="jumpWizard(5)" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Back</button>
-            <button onclick="saveWizStep(6)" class="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs rounded-lg">
-              ✓ Complete All 6 Steps & Sync to 11/11 Checklist
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TRD STEP 5 MANDATORY PHOTO SLOTS -->
+      <!-- TRD 1.2: Daily Vehicle & Equipment Inspections -->
       <div class="t6-card space-y-2.5">
         <div class="flex justify-between items-center">
-          <span class="text-xs font-extrabold text-slate-900">Documentation: TRD Step 5 Required Photos *</span>
-          <span id="photoBadge" class="badge-pill bg-amber-100 text-amber-800">0/4 Required</span>
+          <span class="text-xs font-extrabold text-slate-900">2. Daily Vehicle & Equipment Inspections</span>
+          <span id="badgeInspections" class="badge-pill bg-amber-100 text-amber-800">Pending</span>
         </div>
+        <p class="text-[11px] text-slate-600">Complete both forms in the app (no default "Pass"!) and email/route to Management & Fleet Manager:</p>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 space-y-2 text-xs">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">A. Daily Vehicle Inspection (#109 Chevy)</span>
+            <select id="selVehInsp" onchange="checkStage1()" class="border border-slate-300 rounded-lg px-2 py-1 text-xs bg-white">
+              <option value="">Select Status...</option>
+              <option value="pass">Inspected & Emailed to Management</option>
+              <option value="defect">Defect Logged & Emailed to Management</option>
+            </select>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">B. Daily Equipment Inspection (3T Pump/Mini-Ex)</span>
+            <select id="selEqInsp" onchange="checkStage1()" class="border border-slate-300 rounded-lg px-2 py-1 text-xs bg-white">
+              <option value="">Select Status...</option>
+              <option value="pass">Inspected & Emailed to Fleet Manager</option>
+              <option value="defect">Defect Logged & Emailed to Fleet Manager</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRD 1.3: Fueling Requirements ($200/wk & Debbie Approval) -->
+      <div class="t6-card space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-extrabold text-slate-900">3. Fueling Requirements ($200/wk Budget)</span>
+          <span id="badgeFuel" class="badge-pill bg-emerald-100 text-emerald-800">$145 / $200 Used</span>
+        </div>
+        <p class="text-[11px] text-slate-600">Track weekly fuel usage. If additional funds are needed over $200/wk, request from Debbie <strong>before leaving the shop</strong>:</p>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="tagPhotoSlot(this, 1)" class="p-2.5 rounded-xl border border-dashed border-amber-500 bg-amber-50/50 text-left text-xs font-bold text-slate-800 flex items-center justify-between">
-            <span>1. Before Photo *</span><i class="fa-solid fa-camera text-slate-500"></i>
+          <button id="btnFuelOk" onclick="simFuel('within')" class="py-2 px-2 bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold text-xs rounded-xl">
+            ✓ Within $200 Budget
           </button>
-          <button onclick="tagPhotoSlot(this, 2)" class="p-2.5 rounded-xl border border-dashed border-amber-500 bg-amber-50/50 text-left text-xs font-bold text-slate-800 flex items-center justify-between">
-            <span>2. Well/Tank/Lid Loc *</span><i class="fa-solid fa-camera text-slate-500"></i>
-          </button>
-          <button onclick="tagPhotoSlot(this, 3)" class="p-2.5 rounded-xl border border-dashed border-amber-500 bg-amber-50/50 text-left text-xs font-bold text-slate-800 flex items-center justify-between">
-            <span>3. Pump/Motor Serial # *</span><i class="fa-solid fa-camera text-slate-500"></i>
-          </button>
-          <button onclick="tagPhotoSlot(this, 4)" class="p-2.5 rounded-xl border border-dashed border-amber-500 bg-amber-50/50 text-left text-xs font-bold text-slate-800 flex items-center justify-between">
-            <span>4. After / Final Site *</span><i class="fa-solid fa-camera text-slate-500"></i>
+          <button id="btnFuelDebbie" onclick="simFuel('debbie')" class="py-2 px-2 bg-amber-50 border border-amber-300 text-amber-900 font-bold text-xs rounded-xl">
+            + Request Extra from Debbie
           </button>
         </div>
+        <div id="fuelSimMsg" class="text-[11px] text-slate-500 italic">Select fuel status above to verify TRD 1.3.</div>
       </div>
 
-      <!-- T6PO 11/11 Job Required Checklist Summary Bar (Auto-Syncs as Steps Finish!) -->
-      <div class="t6-card flex items-center justify-between bg-slate-50">
-        <div>
-          <div class="text-[10px] font-bold uppercase text-slate-500">T6PO JOB REQUIREMENTS</div>
-          <div id="reqTitleText" class="text-xs font-extrabold text-slate-900">Complete 6 Guided Steps + 4 Photos</div>
-        </div>
-        <span id="reqCounterPill" class="badge-pill bg-amber-100 text-amber-800">5/11 required</span>
-      </div>
-
-      <button id="btnUnlockStage3" onclick="completeStage2()" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
-        <i class="fa-solid fa-lock mr-1.5"></i>Complete All 6 Guided Note Steps & 4 Photos to Unlock Billing
+      <button id="btnToStage2" onclick="switchStage(2)" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
+        <i class="fa-solid fa-lock mr-1.5"></i>Complete Clock-In, Both Inspections & Fuel Check
       </button>
     </div>
 
     <!-- =================================================================== -->
-    <!-- STAGE 3: OSC WAITING ROOM, TRUCK CLEANUP & PAYMENT (TRD Steps 6–10) -->
+    <!-- STAGE 2: VERIFY DAILY WORK ASSIGNMENT (All 10 TRD Pre-Job Steps!)   -->
+    <!-- =================================================================== -->
+    <div id="stagePane2" class="space-y-3 hidden">
+      <div class="bg-blue-950 text-white rounded-xl p-3 text-xs">
+        <div class="font-extrabold text-amber-400 uppercase text-[10px]">TRD SECTION 2 • VERIFY DAILY WORK ASSIGNMENT (STEPS 1–10)</div>
+        <div>Simulate all 10 pre-departure verification steps before unlocking the truck Phase Buttons.</div>
+      </div>
+
+      <!-- TRD 2.1 - 2.4: Customer Info, Scope, Questionnaire, History & Goal -->
+      <div class="t6-card space-y-2">
+        <div class="text-xs font-extrabold text-slate-900">Steps 1–4: Customer File, Questionnaire, Drawings & Goal</div>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs space-y-1 text-slate-700">
+          <div><strong>1. Past Jobs & Comm:</strong> 10/2024 replaced pressure switch; customer prefers text updates.</div>
+          <div><strong>2. Scope & Customer Questionnaire:</strong> Attached in CRM — replace waterlogged tank & check pump amps.</div>
+          <div><strong>3. Drawings & Access Restrictions:</strong> Corral gate code <code>#4491</code>; well head 40ft NE of barn.</div>
+          <div><strong>4. WHY Customer Called (End Goal):</strong> Stop short-cycling & ensure reliable water before winter.</div>
+        </div>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer pt-1">
+          <input type="checkbox" id="s2_c1" onchange="checkStage2()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>Steps 1–4 Verified:</strong> Reviewed full customer file, past communications, Customer Questionnaire, drawings, gate code & WHY they called.</span>
+        </label>
+      </div>
+
+      <!-- TRD 2.5: Customer Welcome Call/Text -->
+      <div class="t6-card space-y-2">
+        <div class="text-xs font-extrabold text-slate-900">Step 5: Morning Customer Welcome Text (Preferred) / Call</div>
+        <div class="bg-[#f5ebe6] border border-[#dfc7bc] rounded-xl p-2.5 text-[11px] text-slate-800 italic">
+          "Hi Zac, we have you on our schedule today! We need to gather all materials for all our jobs for the day and will head out shortly. You are <strong>1st on our schedule</strong> for approximately <strong>8:30 AM</strong>. We will give you at least <strong>30 minutes notice</strong> before arriving, and will let you know immediately if anything changes (e.g., a job runs long or an emergency happens)."
+        </div>
+        <button id="btnSendWelcome" onclick="simWelcomeText()" class="w-full py-2.5 bg-[#0f1d3a] text-white font-bold text-xs rounded-xl">
+          <i class="fa-solid fa-comment-sms text-amber-400 mr-1.5"></i>Send TRD Step 5 Welcome Text to All Daily Customers
+        </button>
+      </div>
+
+      <!-- TRD 2.6 - 2.10: Materials, Timeline, Checklists, Locates/Permits & Crew Assignments -->
+      <div class="t6-card space-y-2">
+        <div class="text-xs font-extrabold text-slate-900">Steps 6–10: Materials, Timeline, Locates & Crew Tasks</div>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s2_c6" onchange="checkStage2()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>6. Materials & Tools:</strong> Verified complete CRM material list & confirmed location of specialty materials, tools, equipment & consumables.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s2_c7" onchange="checkStage2()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>7 & 8. Project Timeline, Urgency & Checklists:</strong> Reviewed CRM project schedule/urgency and acknowledged required job checklists in order.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s2_c9" onchange="checkStage2()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>9. Locates & Permits:</strong> Verified utility locates are complete prior to arrival and permits are pulled/pending inspection.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s2_c10" onchange="checkStage2()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>10. Crew Assignments (Lead Tech):</strong> Assigned tasks to crew members in accordance with the project schedule.</span>
+        </label>
+      </div>
+
+      <button id="btnToStage3" onclick="switchStage(3)" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
+        <i class="fa-solid fa-lock mr-1.5"></i>Complete All 10 Pre-Job Steps to Unlock Onsite Execution
+      </button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- STAGE 3: PROJECT COMPLETION (#1–5), SHORTAGES & STEP-BY-STEP NOTES  -->
     <!-- =================================================================== -->
     <div id="stagePane3" class="space-y-3 hidden">
 
-      <!-- Customer Satisfaction & Materials Submission (TRD Step 6–8) -->
+      <!-- TRD Project Completion Steps 1–4 -->
       <div class="t6-card space-y-2">
-        <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500">1. Customer Walkthrough & Bill Prep (TRD #6–8)</div>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 cursor-pointer">
-          <input type="checkbox" id="s3_sat" onchange="checkStage3()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Customer Satisfaction (Step 6):</strong> Walked customer through completed work & confirmed satisfaction BEFORE packing tools.</span>
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-extrabold text-slate-900">Project Execution & Quality (TRD Completion #1–4)</span>
+          <button onclick="openShortageSimulator()" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-900 border border-rose-300 rounded-lg text-[11px] font-extrabold">
+            <i class="fa-solid fa-triangle-exclamation mr-1"></i>Simulate Material Shortage (7 Steps)
+          </button>
+        </div>
+
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s3_exec1" onchange="checkStage3()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>1. Recipe Code Name / WBS / SOPs:</strong> Followed Recipe Code Name, WBS, Core Task Process Flow & Company Illustrations.</span>
         </label>
-        <label class="flex items-start space-x-2.5 text-xs text-slate-800 cursor-pointer">
-          <input type="checkbox" id="s3_bill" onchange="checkStage3()" class="mt-0.5 w-4 h-4 accent-amber-600" />
-          <span><strong>Bill Submission (Step 7–8):</strong> Submitted all materials, receipts, change orders & crew hours to Field Service Supervisor / OSC.</span>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s3_exec2" onchange="checkStage3()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>2 & 4. Verify Fellow Crew Work & Docs:</strong> Lead verified crew work meets standards and crew uploaded notes/photos to CRM.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s3_exec3" onchange="checkStage3()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>3. Inspection Notification:</strong> Notified Field Service Manager when ready for pressure test / electrical / plumbing / engineer inspection.</span>
         </label>
       </div>
 
-      <!-- THE OSC WAITING ROOM & TRUCK ORGANIZATION PROTOCOL (TRD Step 8 & 9) -->
-      <div class="navy-panel space-y-3 border-2 border-amber-500/60">
+      <!-- QUICK NOTE SCRATCHPAD (Kept for fast mid-job jots & audio!) -->
+      <div class="t6-card space-y-2 border-l-4 border-l-blue-600">
         <div class="flex items-center justify-between">
           <div>
-            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400">TRD STEP 8 & 9 WAIT-TIME PROTOCOL</div>
-            <div class="text-base font-extrabold text-white">OSC Invoice Waiting Room</div>
+            <div class="text-[10px] font-extrabold uppercase text-blue-700">ON-THE-FLY JOT / AUDIO</div>
+            <div class="text-xs font-extrabold text-slate-900">Quick Note (Mid-Job Measurements & Voice Memos)</div>
           </div>
-          <span id="oscWaitPill" class="badge-pill bg-amber-500/20 text-amber-300 border border-amber-500/40">DO NOT LEAVE SITE</span>
+          <button onclick="simQuickNote()" class="px-2.5 py-1 bg-blue-600 text-white rounded-lg text-[11px] font-bold">
+            <i class="fa-solid fa-microphone mr-1"></i>Dictate Quick Note
+          </button>
+        </div>
+        <textarea id="quickNoteBox" rows="2" class="w-full border border-slate-300 rounded-xl p-2 text-xs bg-slate-50" placeholder="Jot quick readings, part sizes, or voice memos anytime during the job..."></textarea>
+      </div>
+
+      <!-- STEP-BY-STEP GUIDED TRD STEP 5 NOTE WIZARD (All 11 Information Relay Sub-Items!) -->
+      <div class="navy-panel space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+          <div>
+            <div class="text-[10px] font-bold uppercase text-amber-400">TRD STEP 5 INFORMATION RELAY (STEP-BY-STEP)</div>
+            <div class="text-sm font-extrabold text-white">6-Step Guided Note & 11/11 Requirement Builder</div>
+          </div>
+          <span id="wizCountBadge" class="badge-pill bg-amber-500/20 text-amber-300">0/6 Steps</span>
         </div>
 
-        <p class="text-xs text-slate-300">
-          While waiting for the Field Service Supervisor / Office Manager / OSC to finalize and email the invoice, <strong>clean and organize truck tools onsite</strong>. Do not leave until authorized.
-        </p>
-
-        <div class="bg-slate-900 rounded-xl p-3 space-y-2 border border-slate-800 text-xs">
-          <label class="flex items-center space-x-2.5 text-slate-200 cursor-pointer">
-            <input type="checkbox" id="s3_clean" onchange="checkStage3()" class="w-4 h-4 accent-amber-500" />
-            <span>Cleaned and organized truck tools onsite while waiting for invoice (TRD #8 & #9).</span>
-          </label>
+        <!-- 6 Step Pills -->
+        <div class="grid grid-cols-6 gap-1">
+          <button onclick="openWiz(1)" id="wp1" class="py-1.5 rounded text-[10.5px] font-bold bg-amber-500 text-slate-950">1. Convo</button>
+          <button onclick="openWiz(2)" id="wp2" class="py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400">2. Locs</button>
+          <button onclick="openWiz(3)" id="wp3" class="py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400">3. Mat/SN</button>
+          <button onclick="openWiz(4)" id="wp4" class="py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400">4. Est/CO</button>
+          <button onclick="openWiz(5)" id="wp5" class="py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400">5. Labor</button>
+          <button onclick="openWiz(6)" id="wp6" class="py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400">6. 100%</button>
         </div>
 
-        <button onclick="simulateOscReady()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl shadow">
-          <i class="fa-solid fa-bolt mr-1"></i>Demo: Simulate OSC Finalizes Invoice ($1,285.00) & Unlocks Payment
-        </button>
+        <!-- Dynamic Wizard Container -->
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-2">
+          <div class="flex justify-between items-center">
+            <span id="wizStepTitle" class="text-xs font-extrabold text-amber-400">Step 1 of 6: Customer Conversations</span>
+            <button onclick="autoFillCurrentWiz()" class="text-[11px] text-blue-400 underline font-bold">Auto-Fill This Step</button>
+          </div>
+          <p id="wizStepPrompt" class="text-[11px] text-slate-300">
+            Document conversations with the customer BEFORE, DURING, and AFTER the work (TRD Step 5a):
+          </p>
+          <textarea id="wizTextarea" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="Type or dictate requirement here..."></textarea>
+          <div class="flex space-x-2">
+            <button onclick="prevWiz()" class="px-3 py-2 bg-slate-800 text-slate-300 font-bold text-xs rounded-lg">&larr; Prev</button>
+            <button onclick="saveAndNextWiz()" class="flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-lg">
+              Save Step & Continue &rarr;
+            </button>
+          </div>
+        </div>
 
-        <!-- Customer Payment Capture (No Permission Block!) -->
-        <div id="payBox" class="bg-slate-900 border border-slate-700 rounded-xl p-3 space-y-2.5 opacity-40 pointer-events-none transition">
+        <!-- 4 Mandatory TRD Step 5 Photo Slots -->
+        <div class="space-y-1.5 pt-1">
           <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400">Approved Invoice Total (INV-2026-001033):</span>
-            <span class="text-lg font-black text-emerald-400">$1,285.00</span>
+            <span class="font-bold text-slate-300">TRD Step 5 Required Photo Uploads:</span>
+            <span id="photoCountText" class="text-amber-400 font-bold">0/4 Uploaded</span>
           </div>
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="confirmPayment('Credit Card Processed ($1,285.00)')" class="py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg">
-              <i class="fa-solid fa-credit-card mr-1"></i>Process Card
+          <div class="grid grid-cols-2 gap-1.5">
+            <button onclick="simPhoto(this, 1)" class="photo-slot p-2 rounded-lg border border-slate-700 bg-slate-900 text-left text-[11px] text-slate-200 flex justify-between items-center">
+              <span>1. Well/Tank/Lid Locs</span><i class="fa-solid fa-camera text-amber-400"></i>
             </button>
-            <button onclick="confirmPayment('Check Collected Onsite ($1,285.00)')" class="py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-lg">
-              <i class="fa-solid fa-money-check-dollar mr-1"></i>Collect Check
+            <button onclick="simPhoto(this, 2)" class="photo-slot p-2 rounded-lg border border-slate-700 bg-slate-900 text-left text-[11px] text-slate-200 flex justify-between items-center">
+              <span>2. Access & Mounting</span><i class="fa-solid fa-camera text-amber-400"></i>
             </button>
-          </div>
-          <div id="payConfirmText" class="text-[11px] text-center text-slate-400">
-            Select payment method above to receive departure authorization.
+            <button onclick="simPhoto(this, 3)" class="photo-slot p-2 rounded-lg border border-slate-700 bg-slate-900 text-left text-[11px] text-slate-200 flex justify-between items-center">
+              <span>3. Pump/Motor Serial #</span><i class="fa-solid fa-camera text-amber-400"></i>
+            </button>
+            <button onclick="simPhoto(this, 4)" class="photo-slot p-2 rounded-lg border border-slate-700 bg-slate-900 text-left text-[11px] text-slate-200 flex justify-between items-center">
+              <span>4. Final Tested System</span><i class="fa-solid fa-camera text-amber-400"></i>
+            </button>
           </div>
         </div>
       </div>
 
-      <button id="btnUnlockStage4" onclick="completeStage3()" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
-        <i class="fa-solid fa-lock mr-1.5"></i>Complete Truck Wait-Cleanup & Payment to Authorize Departure
+      <button id="btnToStage4" onclick="switchStage(4)" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
+        <i class="fa-solid fa-lock mr-1.5"></i>Complete Execution Checks, 6 Note Steps & 4 Photos
       </button>
     </div>
 
     <!-- =================================================================== -->
-    <!-- STAGE 4: THINKING AHEAD, TOMORROW PREP & FINAL CLOSEOUT (TRD Sec 3) -->
+    <!-- STAGE 4: PROJECT CLOSEOUT, BILLING & WAITING ROOM (TRD Steps 6–10)  -->
     <!-- =================================================================== -->
     <div id="stagePane4" class="space-y-3 hidden">
-
-      <div class="bg-emerald-100 border border-emerald-300 rounded-xl p-3 text-xs text-emerald-950 font-semibold">
-        <i class="fa-solid fa-circle-check text-emerald-700 mr-1"></i>
-        <strong>Site Departure Authorized!</strong> Before submitting final closeout, review how today impacts tomorrow.
+      <div class="bg-blue-950 text-white rounded-xl p-3 text-xs">
+        <div class="font-extrabold text-amber-400 uppercase text-[10px]">TRD PROJECT COMPLETION STEPS 6–10 • CLOSEOUT & BILLING</div>
+        <div>Simulate Customer Satisfaction, Bill Prep, Truck Cleanup While Waiting, Payment Capture, and Departure Authorization.</div>
       </div>
 
-      <!-- Thinking Ahead: Tomorrow's 1st Call Card -->
-      <div class="navy-panel space-y-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400">THINKING AHEAD • TODAY'S IMPACT ON TOMORROW</div>
-            <div class="text-base font-extrabold text-white">Tomorrow's 1st Job & End-of-Shift Prep</div>
-          </div>
-          <span class="badge-pill bg-blue-500/20 text-blue-300">8:00 AM Roll</span>
+      <!-- Steps 6, 7 & 8a -->
+      <div class="t6-card space-y-2">
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s4_c6" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>6. Customer Satisfaction:</strong> Verified project completed per scope and confirmed customer's satisfaction.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s4_c7" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>7. Submission of Information:</strong> Field Service Supervisor received all receipts, invoices, change orders, payments & crew hours.</span>
+        </label>
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s4_c8" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>8. Prepare Final Bill:</strong> Entered all materials on paper invoice OR informed Field Service Supervisor/Office Manager of all materials & labor times used onsite.</span>
+        </label>
+      </div>
+
+      <!-- Step 8b, 9 & 10: Waiting Room, Truck Maintenance Onsite & Payment -->
+      <div class="navy-panel space-y-3 border-2 border-amber-500/60">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-extrabold text-amber-400">Steps 8, 9 & 10: Onsite Wait Protocol & Payment</span>
+          <span id="authBadge" class="badge-pill bg-rose-500/20 text-rose-300 border border-rose-500/40">Hold Onsite</span>
         </div>
 
-        <div class="bg-slate-900 rounded-xl p-3 text-xs space-y-1 border border-slate-800">
-          <div class="font-bold text-white text-sm">Tomorrow #1: Miller Residence — Sewer Line Replace</div>
-          <p class="text-slate-300"><strong>Specialty Equipment Needed:</strong> 3T Pump Truck + Mini-Excavator</p>
-          <p class="text-slate-300"><strong>Materials to Load Tonight:</strong> 40ft SDR-35 4" Pipe, (4) Fernco Couplings, Bedding Sand</p>
-          <p class="text-amber-300"><strong>Locates & Permits:</strong> Dig Ticket #88392 Active • Plumbing Inspection at 1:00 PM</p>
+        <label class="flex items-start space-x-2 text-xs text-slate-200 bg-slate-900 p-2.5 rounded-xl border border-slate-800 cursor-pointer">
+          <input type="checkbox" id="s4_c9" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-500" />
+          <span><strong>9. Truck Maintenance While Waiting:</strong> Cleaned and organized truck tools onsite while waiting for Supervisor/Office Manager to email invoice.</span>
+        </label>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="simPayAndAuth('Check Collected Onsite')" class="py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl">
+            <i class="fa-solid fa-money-check-dollar mr-1"></i>Collect Check ($1,285)
+          </button>
+          <button onclick="simPayAndAuth('Credit Card Processed by Supv/Office')" class="py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl">
+            <i class="fa-solid fa-credit-card mr-1"></i>Confirm CC Processed
+          </button>
         </div>
 
-        <div class="space-y-2 text-xs">
-          <label class="flex items-start space-x-2.5 text-slate-200 cursor-pointer">
-            <input type="checkbox" id="s4_clean" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-500" />
-            <span><strong>Clean Out & Wash Truck (TRD #1 & #3):</strong> Removed trash, put away tools/unused materials, and washed dirty truck so it is ready for emergency calls.</span>
-          </label>
-          <label class="flex items-start space-x-2.5 text-slate-200 cursor-pointer">
-            <input type="checkbox" id="s4_consumables" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-500" />
-            <span><strong>Restock Stock & Consumables (TRD #2):</strong> Restocked truck stock + gloves, disinfecting wipes, ear plugs, Tyvek suits, drill bits, Sawzall/razor blades, paper towels.</span>
-          </label>
-          <label class="flex items-start space-x-2.5 text-slate-200 cursor-pointer">
-            <input type="checkbox" id="s4_tomorrow" onchange="checkStage4()" class="mt-0.5 w-4 h-4 accent-amber-500" />
-            <span><strong>Load Tomorrow's Materials (TRD #2):</strong> Loaded materials & verified equipment for tomorrow's 8:00 AM job.</span>
-          </label>
+        <div id="authStatusMsg" class="text-[11px] text-center text-slate-400">
+          Do not leave job location until authorized by Field Service Supervisor or Office Manager (Step 8 & 10).
         </div>
       </div>
 
-      <!-- Exact T6PO Orange Final Submit Button -->
-      <button id="btnFinalCloseout" onclick="finishWorkOrder()" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-gradient-to-r from-orange-600 to-amber-500 opacity-40 cursor-not-allowed shadow-lg transition">
-        <i class="fa-solid fa-lock mr-1.5"></i>Confirm End-of-Shift & Tomorrow Prep to Submit Closeout
+      <button id="btnToStage5" onclick="switchStage(5)" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-slate-400 cursor-not-allowed transition shadow">
+        <i class="fa-solid fa-lock mr-1.5"></i>Complete Steps 6–10 & Receive Authorization to Depart
+      </button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- STAGE 5: END OF SHIFT RESPONSIBILITIES (Vehicle Maintenance #1–4)   -->
+    <!-- =================================================================== -->
+    <div id="stagePane5" class="space-y-3 hidden">
+      <div class="bg-blue-950 text-white rounded-xl p-3 text-xs">
+        <div class="font-extrabold text-amber-400 uppercase text-[10px]">TRD END OF SHIFT RESPONSIBILITIES • VEHICLE MAINTENANCE #1–4</div>
+        <div>Simulate shop return cleanup, restocking all specific TRD consumables, loading tomorrow's materials, washing the truck, and reporting issues.</div>
+      </div>
+
+      <div class="t6-card space-y-2.5">
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s5_c1" onchange="checkStage5()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>1. Clean Out the Vehicle:</strong> Returned to shop, removed all trash, and put away all tools and unused materials.</span>
+        </label>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 space-y-1.5">
+          <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" id="s5_c2a" onchange="checkStage5()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+            <span><strong>2a. Restock Truck Stock & Consumables:</strong> Restocked truck stock + <em>rubber gloves, disinfecting wipes, ear plugs, Tyvek suits, drill bits, Sawzall blades, paper towels, razor blades</em>.</span>
+          </label>
+          <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+            <input type="checkbox" id="s5_c2b" onchange="checkStage5()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+            <span><strong>2b. Load for Next Day:</strong> Loaded the truck with materials for tomorrow's schedule (Miller Sewer Replace).</span>
+          </label>
+        </div>
+
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s5_c3" onchange="checkStage5()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>3. Clean the Truck (Emergency Ready):</strong> Sprayed off dirty truck with pressure washer; parked restocked, clean, and ready for emergency calls.</span>
+        </label>
+
+        <label class="flex items-start space-x-2 text-xs text-slate-800 cursor-pointer">
+          <input type="checkbox" id="s5_c4" onchange="checkStage5()" class="mt-0.5 w-4 h-4 accent-amber-600" />
+          <span><strong>4. Report Vehicle / Boom Issues:</strong> Verified no major truck/boom issues (or filled out Vehicle Issue Report & spoke with Fleet Manager immediately).</span>
+        </label>
+      </div>
+
+      <button id="btnCompleteAll" onclick="finishFullSimulation()" disabled class="w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-gradient-to-r from-orange-600 to-amber-500 opacity-40 cursor-not-allowed shadow-lg transition">
+        <i class="fa-solid fa-lock mr-1.5"></i>Complete All End-of-Shift Steps to Finish TRD Simulation
       </button>
     </div>
 
   </div>
 
-  <!-- BOTTOM 6-ICON NAVIGATION BAR (Exact T6PO Match) -->
+  <!-- BOTTOM 6-ICON NAVIGATION BAR -->
   <nav class="bottom-nav text-[11px] font-semibold text-slate-400">
-    <button onclick="alert('Time Tab: Clock-in & My Time Clock')" class="flex flex-col items-center space-y-1 py-1">
+    <button onclick="switchStage(1)" class="flex flex-col items-center space-y-1 py-1">
       <i class="fa-solid fa-stopwatch text-slate-300 text-base"></i><span>Time</span>
     </button>
-    <button class="flex flex-col items-center space-y-1 py-1 text-white font-bold">
+    <button onclick="switchStage(3)" class="flex flex-col items-center space-y-1 py-1 text-white font-bold">
       <i class="fa-solid fa-toolbox text-amber-500 text-base"></i><span>Work</span>
       <span class="w-4 h-0.5 bg-amber-400 rounded-full"></span>
     </button>
@@ -570,7 +540,7 @@
     <button class="flex flex-col items-center space-y-1 py-1">
       <i class="fa-solid fa-chart-line text-slate-300 text-base"></i><span>Scores</span>
     </button>
-    <button onclick="toggleFleetModal()" class="flex flex-col items-center space-y-1 py-1">
+    <button onclick="switchStage(5)" class="flex flex-col items-center space-y-1 py-1">
       <i class="fa-solid fa-truck-moving text-amber-400 text-base"></i><span>Fleet</span>
     </button>
     <button class="flex flex-col items-center space-y-1 py-1">
@@ -580,89 +550,161 @@
 
 </div>
 
-<!-- MODAL: UNFORESEEN ISSUES / MATERIAL SHORTAGE (TRD Sec 4) -->
-<div id="shortageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-[#0d1526] border border-amber-500/50 rounded-2xl max-w-md w-full p-4 space-y-3 text-white">
+<!-- ======================================================================= -->
+<!-- MODAL: UNFORESEEN ISSUES / MATERIAL SHORTAGES SIMULATOR (All 7 Steps!)  -->
+<!-- ======================================================================= -->
+<div id="shortageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-3">
+  <div class="bg-[#0d1526] border-2 border-amber-500 rounded-2xl max-w-md w-full p-4 space-y-2.5 text-white max-h-[90vh] overflow-y-auto">
     <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-      <h3 class="text-sm font-extrabold text-amber-400"><i class="fa-solid fa-box mr-1.5"></i>TRD Material Shortage / Unforeseen Issue</h3>
-      <button onclick="toggleShortageModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      <div>
+        <div class="text-[10px] font-bold uppercase text-amber-400">TRD SECTION 4 SIMULATOR</div>
+        <h3 class="text-sm font-extrabold text-white">Handling Unforeseen Issues or Material Shortages (Steps 1–7)</h3>
+      </div>
+      <button onclick="openShortageSimulator()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <p class="text-xs text-slate-300">Per TRD: Gather exact sizes/quantities onsite, notify Field Service Supervisor (1st) or Office Manager, drive to cell service if needed to confirm receipt, and continue available work.</p>
-    <textarea rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-white" placeholder="Exact size, qty, material type needed & urgency..."></textarea>
-    <label class="flex items-center space-x-2 text-xs text-slate-200">
-      <input type="checkbox" checked class="accent-amber-500" />
-      <span>Continuing other work onsite & updated customer + PM on return plan.</span>
-    </label>
-    <button onclick="toggleShortageModal()" class="w-full py-2.5 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl">Send List to Supervisor & Log in CRM</button>
-  </div>
-</div>
 
-<!-- MODAL: FLEET PRE-TRIP & $200 FUEL TRACKER -->
-<div id="fleetModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-  <div class="bg-[#0d1526] border border-slate-700 rounded-2xl max-w-md w-full p-4 space-y-3 text-white">
-    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-      <h3 class="text-sm font-extrabold text-white"><i class="fa-solid fa-truck-pickup text-amber-400 mr-1.5"></i>Truck #109 — Pre-Trip & Fuel ($200/wk)</h3>
-      <button onclick="toggleFleetModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+    <div class="space-y-2 text-xs text-slate-200">
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>1. Gather Info Onsite:</strong> Recorded exact sizes, quantities & material types needed while still on site.</span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>2. Communicate w/ Management:</strong> Sent list + urgency to Field Service Supervisor (1st) or Office Manager. <em>(If out of cell service: drove to nearest cell signal to send & called to confirm receipt).</em></span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>3. Coordinate Procurement:</strong> Agreed on verbal check-in time for material arrival & communicated plan to Production Manager.</span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>4. Continue Work:</strong> Crew continued advancing other available project tasks while waiting on missing materials.</span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>5. Verify Next Steps:</strong> Verified next steps with Project Manager before leaving site.</span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>6. Customer Communication:</strong> Spoke face-to-face with customer regarding unforeseen issue, actions taken & when team will return.</span></label>
+      <label class="flex items-start space-x-2"><input type="checkbox" checked class="mt-0.5 accent-amber-500" /><span><strong>7. Document in CRM:</strong> Annotated events in customer's CRM file notes (or wrote on notepad & uploaded photo if no cell signal).</span></label>
     </div>
-    <p class="text-xs text-slate-300">Items default to <strong>Select...</strong> (not "Pass") so techs must actively inspect the truck.</p>
-    <div class="flex justify-between items-center bg-slate-900 p-2.5 rounded-xl text-xs">
-      <span>Weekly Fuel Budget (Request extra from Debbie prior to leaving)</span>
-      <strong class="text-emerald-400">$142 / $200</strong>
-    </div>
-    <button onclick="toggleFleetModal()" class="w-full py-2.5 bg-amber-500 text-slate-950 font-extrabold text-xs rounded-xl">Close</button>
+
+    <button onclick="completeShortageSim()" class="w-full py-2.5 bg-amber-500 text-slate-950 font-black text-xs rounded-xl">
+      ✓ Log All 7 Unforeseen Issue / Shortage Steps into CRM
+    </button>
   </div>
 </div>
 
 <script>
-  let welcomeSmsSent = false;
-  let completedWizSteps = new Set();
-  let completedPhotos = new Set();
-  let paymentDone = false;
+  let currentStage = 1;
+  let clockedIn = false;
+  let fuelChecked = false;
+  let welcomeSent = false;
+  let currentWiz = 1;
+  let wizData = { 1: "", 2: "", 3: "", 4: "", 5: "", 6: "" };
+  let wizDone = new Set();
+  let photosDone = new Set();
+  let paidAndAuthorized = false;
 
-  function switchStage(stageNum) {
-    [1, 2, 3, 4].forEach(n => {
-      document.getElementById('stagePane' + n).classList.toggle('hidden', n !== stageNum);
-      const tab = document.getElementById('stTab' + n);
-      if (n === stageNum) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
+  const wizConfigs = {
+    1: {
+      title: "Step 1 of 6: Customer Conversations (TRD 5a)",
+      prompt: "Document conversations with the customer BEFORE, DURING, and AFTER the work:",
+      sample: "Spoke with Zac before starting work to confirm low-pressure symptoms; showed waterlogged tank mid-job; walked through new 86-gal tank & 40/60 switch operation after completion."
+    },
+    2: {
+      title: "Step 2 of 6: Directions & Component Locations (TRD 5b–c)",
+      prompt: "Include additional property directions + exact locations of well heads, controls, pressure tanks, and sewer lids:",
+      sample: "Property entrance is 2nd gravel drive past red mailbox. Well head is 40ft NE of barn behind gate #4491; pressure tank & controls on north pump house wall; sewer lid 15ft W of porch."
+    },
+    3: {
+      title: "Step 3 of 6: Materials, Serial #s & System Testing (TRD 5e–g)",
+      prompt: "List work performed, exact materials used (type, quantity, size), pump/motor warranty serial #s, and confirm system is tested & operating correctly:",
+      sample: "Installed (1) 86-Gal Well-X-Trol Tank, (1) 1\" Brass Tank Tee Kit, (1) Square D 40/60 Switch. Submersible Pump SN #FE-99281-B. Confirmed system tested and operating at 12.2A, 40/60 PSI."
+    },
+    4: {
+      title: "Step 4 of 6: Further Estimates or Change Orders (TRD 5h)",
+      prompt: "State whether further estimates or change orders are needed, including exact distances and elevation changes:",
+      sample: "Customer requested estimate for spring: trench 110ft of 1\" poly line to horse barn hydrant (+6ft elevation rise)."
+    },
+    5: {
+      title: "Step 5 of 6: Time Spent & Dirt Work Split (TRD 5i–j)",
+      prompt: "Break down drive time, labor time per technician, shop time, and for dirt work split machine time vs. standard labor:",
+      sample: "Drive Time: 0.5h | Tech Labor (Zac): 2.5h | Helper Labor: 2.5h | Shop Time: 0.25h | Dirt Work Breakdown: 0h Machine Time / 2.5h Standard Labor."
+    },
+    6: {
+      title: "Step 6 of 6: Explicit 100% Completion Note (TRD 5k)",
+      prompt: "Clearly note if the job is 100% complete, billed, and collected, with no need to return:",
+      sample: "Job is 100% complete, billed, and collected onsite, with no need to return."
+    }
+  };
+
+  function switchStage(n) {
+    currentStage = n;
+    [1, 2, 3, 4, 5].forEach(i => {
+      document.getElementById('stagePane' + i).classList.toggle('hidden', i !== n);
+      document.getElementById('stTab' + i).classList.toggle('active', i === n);
     });
-    const labels = [
-      "Stage 1 of 4: Pre-Job Prep",
-      "Stage 2 of 4: Onsite & Guided Notes",
-      "Stage 3 of 4: OSC Billing Wait & Pay",
-      "Stage 4 of 4: Tomorrow Readiness"
-    ];
-    document.getElementById('topStatusBadge').innerText = labels[stageNum - 1];
+    updateOverallProgress();
   }
 
-  function selectPhase(label, btnId) {
+  function updateOverallProgress() {
+    const pct = Math.min(100, (currentStage - 1) * 20 + (paidAndAuthorized ? 20 : 0));
+    document.getElementById('topProgressBadge').innerText = "TRD Progress: " + pct + "%";
+  }
+
+  function selectPhase(name, btnId) {
     document.querySelectorAll('.navy-btn').forEach(b => b.classList.remove('active-phase'));
     document.getElementById(btnId).classList.add('active-phase');
-    document.getElementById('phaseText').innerText = label;
+    document.getElementById('phaseText').innerText = name;
   }
 
-  function fireWelcomeSms() {
-    welcomeSmsSent = true;
-    const btn = document.getElementById('btnWelcomeSms');
-    btn.className = "w-full py-2.5 rounded-xl bg-emerald-700 text-white font-bold text-xs flex items-center justify-center space-x-2";
-    btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Welcome SMS Sent (1st on Schedule + 30m Notice)</span>';
+  // STAGE 1 FUNCTIONS
+  function simClockIn() {
+    clockedIn = true;
+    document.getElementById('badgeClockIn').className = "badge-pill bg-emerald-100 text-emerald-800";
+    document.getElementById('badgeClockIn').innerText = "Clocked In 7:00 AM";
+    document.getElementById('btnClockIn').className = "w-full py-2.5 bg-emerald-700 text-white font-bold text-xs rounded-xl";
+    document.getElementById('btnClockIn').innerHTML = "✓ Clocked Into CRM Timesheet";
+    document.getElementById('phaseText').innerText = "At Shop (Clocked In)";
+    document.getElementById('phaseTimer').innerText = "00:05:12";
+    checkStage1();
+  }
+
+  function simFuel(mode) {
+    fuelChecked = true;
+    const msg = document.getElementById('fuelSimMsg');
+    msg.className = "text-[11px] text-emerald-800 font-bold";
+    if (mode === 'within') {
+      msg.innerText = "✓ Fuel usage ($145/$200) logged within weekly budget.";
+    } else {
+      msg.innerText = "✓ Requested additional fuel funds from Debbie prior to leaving shop.";
+    }
     checkStage1();
   }
 
   function checkStage1() {
-    const c1 = document.getElementById('s1_hist').checked;
-    const c2 = document.getElementById('s1_mat').checked;
-    const c3 = document.getElementById('s1_loc').checked;
-    const c4 = document.getElementById('s1_crew').checked;
-    const btn = document.getElementById('btnUnlockStage2');
-
-    if (c1 && c2 && c3 && c4 && welcomeSmsSent) {
+    const v = document.getElementById('selVehInsp').value !== "";
+    const e = document.getElementById('selEqInsp').value !== "";
+    if (v && e) {
+      document.getElementById('badgeInspections').className = "badge-pill bg-emerald-100 text-emerald-800";
+      document.getElementById('badgeInspections').innerText = "Both Emailed";
+    }
+    const btn = document.getElementById('btnToStage2');
+    if (clockedIn && v && e && fuelChecked) {
       btn.disabled = false;
-      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer transition shadow-lg";
-      btn.innerHTML = '<i class="fa-solid fa-play mr-1.5"></i>Pre-Job Verified — Start Work & Open Guided Notes &rarr;';
+      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer shadow-lg";
+      btn.innerHTML = "✓ Stage 1 Complete — Open Stage 2 (Verify Work Assignment) &rarr;";
+      document.getElementById('stTab1').classList.add('completed');
+    }
+  }
+
+  // STAGE 2 FUNCTIONS
+  function simWelcomeText() {
+    welcomeSent = true;
+    const btn = document.getElementById('btnSendWelcome');
+    btn.className = "w-full py-2.5 bg-emerald-700 text-white font-bold text-xs rounded-xl";
+    btn.innerHTML = "✓ Welcome SMS Sent (Job #1 Order + Approx Time + 30m Notice)";
+    checkStage2();
+  }
+
+  function checkStage2() {
+    const c1 = document.getElementById('s2_c1').checked;
+    const c6 = document.getElementById('s2_c6').checked;
+    const c7 = document.getElementById('s2_c7').checked;
+    const c9 = document.getElementById('s2_c9').checked;
+    const c10 = document.getElementById('s2_c10').checked;
+    const btn = document.getElementById('btnToStage3');
+
+    if (c1 && welcomeSent && c6 && c7 && c9 && c10) {
+      btn.disabled = false;
+      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer shadow-lg";
+      btn.innerHTML = "✓ All 10 Pre-Job Steps Verified — Start Work (Stage 3) &rarr;";
+      document.getElementById('stTab2').classList.add('completed');
       ['pBtn_otw', 'pBtn_start', 'pBtn_parts', 'pBtn_pause'].forEach(id => {
         document.getElementById(id).disabled = false;
       });
@@ -670,171 +712,173 @@
     }
   }
 
-  function completeStage1() {
-    document.getElementById('stTab1').classList.add('completed');
-    selectPhase('Start Work', 'pBtn_start');
-    switchStage(2);
+  // STAGE 3 FUNCTIONS
+  function simQuickNote() {
+    document.getElementById('quickNoteBox').value = "Quick mid-job voice jot: Tank bladder ruptured; pulling 12.2A on 1.5HP Franklin pump; corral gate #4491 latched.";
   }
 
-  // Quick Note functions
-  function dictateQuickNote() {
-    const q = document.getElementById('quickNoteInput');
-    q.value = (q.value ? q.value + " | " : "") + "Quick voice memo: Existing 86-gal tank is waterlogged (0 PSI air charge); pump pulling 12.2A @ 240V.";
-    saveQuickNote();
-  }
-
-  function saveQuickNote() {
-    const status = document.getElementById('quickNoteStatus');
-    status.className = "text-[11px] text-emerald-700 font-bold";
-    status.innerText = "✓ Quick note saved to Work Order!";
-  }
-
-  // Step-by-Step Guided TRD Wizard functions
-  function jumpWizard(stepNum) {
-    [1, 2, 3, 4, 5, 6].forEach(n => {
-      document.getElementById('wizStep' + n).classList.toggle('hidden', n !== stepNum);
-      const pill = document.getElementById('wPill' + n);
-      if (n === stepNum) {
-        pill.className = "py-1.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950";
-      } else if (completedWizSteps.has(n)) {
-        pill.className = "py-1.5 rounded text-[11px] font-bold bg-emerald-600 text-white";
+  function openWiz(n) {
+    wizData[currentWiz] = document.getElementById('wizTextarea').value;
+    currentWiz = n;
+    document.getElementById('wizStepTitle').innerText = wizConfigs[n].title;
+    document.getElementById('wizStepPrompt').innerText = wizConfigs[n].prompt;
+    document.getElementById('wizTextarea').value = wizData[n] || "";
+    [1, 2, 3, 4, 5, 6].forEach(i => {
+      const p = document.getElementById('wp' + i);
+      if (i === n) {
+        p.className = "py-1.5 rounded text-[10.5px] font-bold bg-amber-500 text-slate-950";
+      } else if (wizDone.has(i)) {
+        p.className = "py-1.5 rounded text-[10.5px] font-bold bg-emerald-600 text-white";
       } else {
-        pill.className = "py-1.5 rounded text-[11px] font-bold bg-slate-800 text-slate-400";
+        p.className = "py-1.5 rounded text-[10.5px] font-bold bg-slate-800 text-slate-400";
       }
     });
   }
 
-  function fillDemoStep(stepNum) {
-    const demoTexts = {
-      1: "Spoke with Zac upon arrival regarding low pressure; showed him the waterlogged tank mid-job; walked through new 86-gal tank & 40/60 switch operation after completion.",
-      2: "Well head is 40ft NE of barn behind corral gate (#4491). Pressure tank & Square D controls mounted on north wall of pump house. Sewer lid 15ft west of front porch.",
-      3: "Materials: (1) 86-Gal Well-X-Trol Tank, (1) 1\" Brass Tank Tee Kit, (1) 40/60 Square D Switch. Pump Serial #FE-99281-B. System tested & operating at 12.2A, 40/60 PSI.",
-      4: "Customer requested estimate for next spring: trench 110ft to horse barn frost-free hydrant (+6ft elevation rise).",
-      5: "Drive Time: 0.5h | Tech Labor (Zac): 2.5h | Shop Time: 0.25h | Dirt Work Breakdown: N/A (0h Machine / 2.5h Standard Tech Labor).",
-      6: "Job is 100% complete, ready to bill and collect onsite, with no need to return."
-    };
-    document.getElementById('wInp' + stepNum).value = demoTexts[stepNum];
+  function autoFillCurrentWiz() {
+    document.getElementById('wizTextarea').value = wizConfigs[currentWiz].sample;
   }
 
-  function saveWizStep(stepNum) {
-    const val = document.getElementById('wInp' + stepNum).value.trim();
-    if (val.length < 5) {
-      fillDemoStep(stepNum);
+  function saveAndNextWiz() {
+    let val = document.getElementById('wizTextarea').value.trim();
+    if (!val) {
+      val = wizConfigs[currentWiz].sample;
+      document.getElementById('wizTextarea').value = val;
     }
-    completedWizSteps.add(stepNum);
-    document.getElementById('wizBadge').innerText = completedWizSteps.size + "/6 Done";
-    if (completedWizSteps.size === 6) {
-      document.getElementById('wizBadge').className = "badge-pill bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-    }
-    if (stepNum < 6) {
-      jumpWizard(stepNum + 1);
+    wizData[currentWiz] = val;
+    wizDone.add(currentWiz);
+    document.getElementById('wizCountBadge').innerText = wizDone.size + "/6 Steps";
+    if (currentWiz < 6) {
+      openWiz(currentWiz + 1);
     } else {
-      jumpWizard(6);
+      openWiz(6);
     }
-    checkStage2();
+    checkStage3();
   }
 
-  function tagPhotoSlot(btn, slotNum) {
-    completedPhotos.add(slotNum);
-    btn.className = "p-2.5 rounded-xl border border-emerald-500 bg-emerald-50 text-left text-xs font-bold text-emerald-900 flex items-center justify-between";
-    btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
-    document.getElementById('photoBadge').innerText = completedPhotos.size + "/4 Required";
-    if (completedPhotos.size === 4) {
-      document.getElementById('photoBadge').className = "badge-pill bg-emerald-100 text-emerald-800";
-    }
-    checkStage2();
+  function prevWiz() {
+    if (currentWiz > 1) openWiz(currentWiz - 1);
   }
 
-  function checkStage2() {
-    const doneCount = completedWizSteps.size + completedPhotos.size;
-    const reqPill = document.getElementById('reqCounterPill');
-    reqPill.innerText = Math.min(11, 1 + doneCount) + "/11 required";
-
-    const btn = document.getElementById('btnUnlockStage3');
-    if (completedWizSteps.size === 6 && completedPhotos.size === 4) {
-      reqPill.className = "badge-pill bg-emerald-100 text-emerald-800";
-      reqPill.innerText = "11/11 Complete (100%)";
-      document.getElementById('reqTitleText').innerText = "All TRD Step 5 Notes & Photos Synced!";
-      btn.disabled = false;
-      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer transition shadow-lg";
-      btn.innerHTML = '<i class="fa-solid fa-file-invoice-dollar mr-1.5"></i>All 6 Note Steps Verified — Go to Billing & Waiting Room &rarr;';
-    }
-  }
-
-  function completeStage2() {
-    document.getElementById('stTab2').classList.add('completed');
-    switchStage(3);
-  }
-
-  // Stage 3 functions
-  function simulateOscReady() {
-    document.getElementById('payBox').classList.remove('opacity-40', 'pointer-events-none');
-    const pill = document.getElementById('oscWaitPill');
-    pill.className = "badge-pill bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
-    pill.innerText = "INVOICE READY";
-  }
-
-  function confirmPayment(text) {
-    paymentDone = true;
-    const msg = document.getElementById('payConfirmText');
-    msg.className = "text-xs text-center text-emerald-400 font-bold";
-    msg.innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i>' + text + ' — Departure Authorized!';
-    document.getElementById('pBtn_shop').disabled = false;
+  function simPhoto(btn, slot) {
+    photosDone.add(slot);
+    btn.className = "photo-slot p-2 rounded-lg border border-emerald-500 bg-emerald-950/60 text-left text-[11px] text-emerald-200 font-bold flex justify-between items-center";
+    btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-400";
+    document.getElementById('photoCountText').innerText = photosDone.size + "/4 Uploaded";
     checkStage3();
   }
 
   function checkStage3() {
-    const c1 = document.getElementById('s3_sat').checked;
-    const c2 = document.getElementById('s3_bill').checked;
-    const c3 = document.getElementById('s3_clean').checked;
-    const btn = document.getElementById('btnUnlockStage4');
+    const e1 = document.getElementById('s3_exec1').checked;
+    const e2 = document.getElementById('s3_exec2').checked;
+    const e3 = document.getElementById('s3_exec3').checked;
+    const btn = document.getElementById('btnToStage4');
 
-    if (c1 && c2 && c3 && paymentDone) {
+    if (e1 && e2 && e3 && wizDone.size === 6 && photosDone.size === 4) {
       btn.disabled = false;
-      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer transition shadow-lg";
-      btn.innerHTML = '<i class="fa-solid fa-truck-fast mr-1.5"></i>Payment & Cleanup Done — Open Stage 4 (Tomorrow Prep) &rarr;';
+      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer shadow-lg";
+      btn.innerHTML = "✓ All TRD Step 5 Notes & Photos Verified — Go to Closeout (Stage 4) &rarr;";
+      document.getElementById('stTab3').classList.add('completed');
     }
   }
 
-  function completeStage3() {
-    document.getElementById('stTab3').classList.add('completed');
-    selectPhase('Back to Shop', 'pBtn_shop');
-    switchStage(4);
+  // STAGE 4 FUNCTIONS
+  function simPayAndAuth(method) {
+    paidAndAuthorized = true;
+    document.getElementById('authBadge').className = "badge-pill bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+    document.getElementById('authBadge').innerText = "Departure Authorized";
+    const msg = document.getElementById('authStatusMsg');
+    msg.className = "text-xs text-center text-emerald-400 font-bold";
+    msg.innerHTML = "✓ " + method + " — Supervisor/Office Authorized Departure!";
+    document.getElementById('pBtn_shop').disabled = false;
+    checkStage4();
+  }
+
+  function checkStage4() {
+    const c6 = document.getElementById('s4_c6').checked;
+    const c7 = document.getElementById('s4_c7').checked;
+    const c8 = document.getElementById('s4_c8').checked;
+    const c9 = document.getElementById('s4_c9').checked;
+    const btn = document.getElementById('btnToStage5');
+
+    if (c6 && c7 && c8 && c9 && paidAndAuthorized) {
+      btn.disabled = false;
+      btn.className = "w-full py-3.5 rounded-xl font-extrabold text-sm text-white bg-emerald-600 hover:bg-emerald-500 cursor-pointer shadow-lg";
+      btn.innerHTML = "✓ Payment & Departure Authorized — Return to Shop (Stage 5) &rarr;";
+      document.getElementById('stTab4').classList.add('completed');
+      selectPhase('Back to Shop', 'pBtn_shop');
+    }
   }
 
   function tryBackToShop() {
-    if (!paymentDone) {
-      alert("TRD Step 8 & 10 Hold: Do not leave the job location until authorized by the Field Service Supervisor/Office Manager and payment is collected!");
+    if (!paidAndAuthorized) {
+      alert("TRD Step 8 & 10 Hold: Do not leave the job location until authorized by the Field Service Supervisor or Office Manager and payment is captured!");
     } else {
       selectPhase('Back to Shop', 'pBtn_shop');
     }
   }
 
-  // Stage 4 functions
-  function checkStage4() {
-    const c1 = document.getElementById('s4_clean').checked;
-    const c2 = document.getElementById('s4_consumables').checked;
-    const c3 = document.getElementById('s4_tomorrow').checked;
-    const btn = document.getElementById('btnFinalCloseout');
+  // STAGE 5 FUNCTIONS
+  function checkStage5() {
+    const c1 = document.getElementById('s5_c1').checked;
+    const c2a = document.getElementById('s5_c2a').checked;
+    const c2b = document.getElementById('s5_c2b').checked;
+    const c3 = document.getElementById('s5_c3').checked;
+    const c4 = document.getElementById('s5_c4').checked;
+    const btn = document.getElementById('btnCompleteAll');
 
-    if (c1 && c2 && c3) {
+    if (c1 && c2a && c2b && c3 && c4) {
       btn.disabled = false;
       btn.classList.remove('opacity-40', 'cursor-not-allowed');
-      btn.innerHTML = '<i class="fa-solid fa-circle-check mr-1.5"></i>Verify & Submit Field Closeout (100% TRD Complete)';
+      btn.innerHTML = "✓ Complete 100% TRD-Compliant Shift & Clock Out";
+      document.getElementById('stTab5').classList.add('completed');
+      document.getElementById('topProgressBadge').className = "badge-pill bg-emerald-100 text-emerald-900 border border-emerald-400";
+      document.getElementById('topProgressBadge').innerText = "TRD Progress: 100%";
     }
   }
 
-  function finishWorkOrder() {
-    document.getElementById('stTab4').classList.add('completed');
-    alert("Work Order WO-2026-001044 Submitted!\n\n• Stage 1: File Reviewed & Welcome SMS Sent\n• Stage 2: Quick Note + All 6 Step-by-Step TRD Notes & 4 Photos Completed\n• Stage 3: Truck Cleaned During OSC Wait & $1,285.00 Collected\n• Stage 4: Consumables Restocked & Tomorrow's 8:00 AM Job Staged");
-  }
-
-  function toggleShortageModal() {
+  function openShortageSimulator() {
     document.getElementById('shortageModal').classList.toggle('hidden');
   }
 
-  function toggleFleetModal() {
-    document.getElementById('fleetModal').classList.toggle('hidden');
+  function completeShortageSim() {
+    openShortageSimulator();
+    alert("Simulated all 7 TRD Unforeseen Issue / Material Shortage steps! List confirmed with Supervisor, crew continued available work, customer & PM updated.");
+  }
+
+  // ONE-CLICK STAGE AUTO-SIMULATOR FOR FAST PRESENTATIONS
+  function autoSimulateCurrentStage() {
+    if (currentStage === 1) {
+      simClockIn();
+      document.getElementById('selVehInsp').value = "pass";
+      document.getElementById('selEqInsp').value = "pass";
+      simFuel('within');
+      checkStage1();
+    } else if (currentStage === 2) {
+      ['s2_c1', 's2_c6', 's2_c7', 's2_c9', 's2_c10'].forEach(id => document.getElementById(id).checked = true);
+      simWelcomeText();
+    } else if (currentStage === 3) {
+      ['s3_exec1', 's3_exec2', 's3_exec3'].forEach(id => document.getElementById(id).checked = true);
+      simQuickNote();
+      [1, 2, 3, 4, 5, 6].forEach(n => {
+        wizData[n] = wizConfigs[n].sample;
+        wizDone.add(n);
+      });
+      openWiz(6);
+      document.getElementById('wizCountBadge').innerText = "6/6 Steps";
+      document.querySelectorAll('.photo-slot').forEach((b, i) => simPhoto(b, i + 1));
+      checkStage3();
+    } else if (currentStage === 4) {
+      ['s4_c6', 's4_c7', 's4_c8', 's4_c9'].forEach(id => document.getElementById(id).checked = true);
+      simPayAndAuth('Credit Card Processed by Supv/Office');
+    } else if (currentStage === 5) {
+      ['s5_c1', 's5_c2a', 's5_c2b', 's5_c3', 's5_c4'].forEach(id => document.getElementById(id).checked = true);
+      checkStage5();
+    }
+  }
+
+  function finishFullSimulation() {
+    alert("100% TRD 3.6.1 Simulation Complete!\n\nEvery single responsibility—from 7:00 AM Clock-In, Inspections, $200 Fuel Budget, and the 10 Pre-Job Checks to Quick Notes, 6-Step Guided Information Relay, Onsite Wait Cleanup, Payment Collection, and End-of-Shift Consumable Restocking—was verified.");
   }
 </script>
 </body>
